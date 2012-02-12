@@ -34,8 +34,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40-client\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.4.2.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,9 +54,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\BaseDataCommand.cs" />
+    <Compile Include="Commands\CreateCommand.cs" />
+    <Compile Include="Commands\DropCommand.cs" />
+    <Compile Include="Commands\EmoteCommand.cs" />
+    <Compile Include="Commands\InventoryCommand.cs" />
+    <Compile Include="Formatters\IFormatter.cs" />
+    <Compile Include="Formatters\InventoryFormatter.cs" />
+    <Compile Include="Commands\LookCommand.cs" />
+    <Compile Include="Formatters\LookFormatter.cs" />
+    <Compile Include="Commands\SetCommand.cs" />
+    <Compile Include="Commands\TakeCommand.cs" />
+    <Compile Include="Data\GameObjectQueries.cs" />
+    <Compile Include="Data\IGameObjectQueries.cs" />
+    <Compile Include="ConsoleWrapper.cs" />
+    <Compile Include="Data\AdventureDbContext.cs" />
+    <Compile Include="Data\IRepositoryFactory.cs" />
+    <Compile Include="Data\IRepositoryFactoryFactory.cs" />
+    <Compile Include="Data\Player.cs" />
+    <Compile Include="Data\Room.cs" />
+    <Compile Include="Data\Tag.cs" />
+    <Compile Include="Data\GameObject.cs" />
+    <Compile Include="Data\IRepository.cs" />
+    <Compile Include="Data\IUnitOfWork.cs" />
+    <Compile Include="Data\Repository.cs" />
+    <Compile Include="Data\UnitOfWork.cs" />
+    <Compile Include="GameEngine.cs" />
+    <Compile Include="ICommand.cs" />
+    <Compile Include="IConsoleWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

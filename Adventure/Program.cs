@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Castle.Windsor;
+using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
+using Adventure.Commands;
+using Adventure.Data;
+using Castle.Facilities.TypedFactory;
+using System.Data.Entity;
+using Adventure.Formatters;
 
 namespace Adventure
 {
@@ -9,38 +17,27 @@ namespace Adventure
     {
         static void Main(string[] args)
         {
-            string currentLine;
-            List<ICommand> cmdList = new List<ICommand>();
-            cmdList.Add(new LaughCommand());
-
-            do 
+            using (IWindsorContainer container = new WindsorContainer())
             {
-                Console.Write("> ");
-                currentLine = Console.ReadLine();
+                container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
+                container.AddFacility<TypedFactoryFacility>();
 
-                ICommand cmd = cmdList.FirstOrDefault(m => m.IsValid(currentLine));
-                if (cmd != null) cmd.Execute(currentLine);
-            } while (currentLine != "exit");
-        }
-    }
+                container.Register(
+                    AllTypes.FromThisAssembly().BasedOn<ICommand>().WithServiceAllInterfaces(),
+                    AllTypes.FromThisAssembly().BasedOn<IFormatter>().WithServiceAllInterfaces(),
+                    Component.For<GameEngine>(), 
+                    Component.For<IGameObjectQueries>().ImplementedBy<GameObjectQueries>(),
+                    Component.For<IRepository>().ImplementedBy<Repository>().LifeStyle.Transient,
+                    Component.For<IUnitOfWork>().ImplementedBy<UnitOfWork>().LifeStyle.Transient,
+                    Component.For<IRepositoryFactory>().AsFactory().LifeStyle.Transient,
+                    Component.For<IRepositoryFactoryFactory>().AsFactory(),
+                    Component.For<IConsoleWrapper>().ImplementedBy<ConsoleWrapper>(),
+                    Component.For<DbContext>().ImplementedBy<AdventureDbContext>().LifeStyle.Transient
+                    );
 
-    interface ICommand
-    {
-        bool IsValid(string cmd);
-        void Execute(string cmd);
-    }
-
-    class LaughCommand : ICommand
-    {
-
-        public bool IsValid(string cmd)
-        {
-            return cmd == "lol";
-        }
-
-        public void Execute(string cmd)
-        {
-            Console.WriteLine("You laugh out loud!");
+                var game = container.Resolve<GameEngine>();
+                game.RunLoop();
+            }
         }
     }
 }
