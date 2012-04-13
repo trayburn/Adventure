@@ -25,7 +25,7 @@ namespace Adventure.Commands
             commandNames.Add(cmdName.ToLower());
         }
 
-        public bool IsValid(string cmd)
+        public virtual bool IsValid(string cmd)
         {
             var cmdName = cmd.Split(' ')[0].ToLower();
             return commandNames.Any(m => m == cmdName);

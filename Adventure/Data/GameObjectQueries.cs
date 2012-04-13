@@ -35,9 +35,14 @@ namespace Adventure.Data
             return room;
         }
 
+        public T Find<T>(IRepository repo, string name) where T : GameObject
+        {
+            return repo.AsQueryable<GameObject>().OfType<T>().FirstOrDefault(m => m.Name == name || m.Aliases.Any(r => r.Value == name));
+        }
+
         public GameObject Find(IRepository repo, string name)
         {
-            return repo.AsQueryable<GameObject>().FirstOrDefault(m => m.Name == name);
+            return Find<GameObject>(repo, name);
         }
 
         public GameObject FindInLocation(IRepository repo, GameObject location, string name)
@@ -45,9 +50,17 @@ namespace Adventure.Data
             return repo.AsQueryable<GameObject>().FirstOrDefault(m => (m.Name == name || m.Aliases.Any(r => r.Value == name)) && m.Location.Id == location.Id);
         }
 
+        public T FindNearPlayer<T>(IRepository repo, Player player, string name) where T : GameObject
+        {
+            return repo.AsQueryable<GameObject>().OfType<T>()
+                .FirstOrDefault(m => (m.Name == name || 
+                    m.Aliases.Any(r => r.Value == name)) && 
+                    (m.Location.Id == player.Id || m.Location.Id == player.Location.Id));
+        }
+
         public GameObject FindNearPlayer(IRepository repo, Player player, string name)
         {
-            return repo.AsQueryable<GameObject>().FirstOrDefault(m => (m.Name == name || m.Aliases.Any(r => r.Value == name)) && (m.Location.Id == player.Id || m.Location.Id == player.Location.Id));
+            return FindNearPlayer<GameObject>(repo, player, name);
         }
     }
 }

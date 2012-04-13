@@ -25,6 +25,7 @@ namespace Adventure
 
                 ICommand cmd = cmdList.FirstOrDefault(m => m.IsValid(currentLine));
                 if (cmd != null) cmd.Execute(currentLine);
+                else if (currentLine != "exit") console.WriteLine("Unknown Command");
             } while (currentLine != "exit");
 
         }

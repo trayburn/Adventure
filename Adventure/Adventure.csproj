@@ -54,12 +54,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AliasCommand.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\BaseDataCommand.cs" />
     <Compile Include="Commands\CreateCommand.cs" />
+    <Compile Include="Commands\CreateExitCommand.cs" />
+    <Compile Include="Commands\CreateRoomCommand.cs" />
     <Compile Include="Commands\DropCommand.cs" />
     <Compile Include="Commands\EmoteCommand.cs" />
     <Compile Include="Commands\InventoryCommand.cs" />
+    <Compile Include="Commands\MoveCommand.cs" />
+    <Compile Include="Commands\StatusCommand.cs" />
+    <Compile Include="Data\Exit.cs" />
     <Compile Include="Formatters\IFormatter.cs" />
     <Compile Include="Formatters\InventoryFormatter.cs" />
     <Compile Include="Commands\LookCommand.cs" />
@@ -80,6 +86,7 @@
     <Compile Include="Data\IUnitOfWork.cs" />
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Data\UnitOfWork.cs" />
+    <Compile Include="Formatters\NotFoundFormatter.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IConsoleWrapper.cs" />

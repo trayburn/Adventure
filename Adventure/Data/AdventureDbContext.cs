@@ -6,6 +6,11 @@ namespace Adventure.Data
     public class AdventureDbContext : DbContext
     {
 
+        public AdventureDbContext()
+        {
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<AdventureDbContext>());
+        }
+
         public DbSet<GameObject> GameObjects { get; set; }
         public DbSet<Tag> Tags { get; set; }
 
